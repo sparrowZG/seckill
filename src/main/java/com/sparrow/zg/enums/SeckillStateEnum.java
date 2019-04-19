@@ -10,6 +10,7 @@ public enum  SeckillStateEnum {
 	INNER_ERROR(-2,"系统异常"),
 	DATA_REWRITE(-3,"数据篡改")
 	;
+
 	private int state;
 	private String stateInfo;
 

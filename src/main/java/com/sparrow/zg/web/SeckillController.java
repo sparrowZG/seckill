@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class SeckillController {
 		produces = {"application/json;charset=UTF-8"}
 	)
 	@ResponseBody
-	public SeckillResult<Exposer> exposer(Long seckillId){
+	public SeckillResult<Exposer> exposer(@PathVariable Long seckillId){
 		SeckillResult<Exposer> result;
 		try {
 			Exposer exposer = seckillService.exportSeckillUrl(seckillId);
@@ -60,8 +61,8 @@ public class SeckillController {
 		return null;
 	}
 	@RequestMapping(value = "/{seckillId}/{md5}/execution",
-	method = RequestMethod.POST,
-	produces = {"application/json;charset=UTF-8"})
+		method = RequestMethod.POST,
+		produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public SeckillResult<SeckillExecution> execute(
 		@PathVariable("seckillId")Long seckillId,
@@ -76,20 +77,21 @@ public class SeckillController {
 			return new SeckillResult<SeckillExecution>(true,execution);
 		}catch (RepeatKillException e1){
 			SeckillExecution execution = new SeckillExecution(seckillId,SeckillStateEnum.REPEAT_KILL);
-			return new SeckillResult<SeckillExecution>(false,execution);
+			return new SeckillResult<SeckillExecution>(true,execution);
 		}catch (SeckillCloseException e2){
 			SeckillExecution execution = new SeckillExecution(seckillId,SeckillStateEnum.END);
-			return new SeckillResult<SeckillExecution>(false,execution);
+			return new SeckillResult<SeckillExecution>(true,execution);
 		}catch (Exception e){
 			logger.error(e.getMessage(),e);
 			SeckillExecution execution = new SeckillExecution(seckillId,SeckillStateEnum.INNER_ERROR);
-			return new SeckillResult<SeckillExecution>(false,execution);
+			return new SeckillResult<SeckillExecution>(true,execution);
 		}
 	}
 	@RequestMapping(value = "/time/now",method = RequestMethod.GET)
+	@ResponseBody
 	public SeckillResult<Long> time(){
 		Date now = new Date();
-		return new SeckillResult(true,now.getTime());
+		return new SeckillResult<Long>(true,now.getTime());
 	}
 
 

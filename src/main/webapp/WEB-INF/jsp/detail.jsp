@@ -5,7 +5,8 @@
 <head>
     <title>秒杀详情页</title>
     <%@include file="common/head.jsp"%>
-    <script src="/resource/script/seckill.js" type="text/javascript"></script>
+
+
 </head>
 
 <body>
@@ -54,28 +55,32 @@
                     Submit
                 </button>
             </div>
-
         </div>
     </div>
 
 </div>
 
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+
+</body>
+<%--jQery文件,务必在bootstrap.min.js之前引入--%>
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- 使用CDN获取公共的js-->
+<%--使用CDN 获取公共js http://www.bootcdn.cn/--%>
+<%--jQuery Cookie操作插件--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<%--jQuery countDown倒计时插件--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 
+<script src="/resource/script/seckill.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
         //使用EL表达式传入参数
         seckill.detail.init({
-           seckillId:${seckill.seckillId},
-            startTime:${seckill.startTime},//毫秒
-            endTime:${seckill.endTime}
+            seckillId:${seckill.seckillId},
+            startTime:${seckill.startTime.time},//毫秒
+            endTime:${seckill.endTime.time}
         });
     });
 </script>
-</body>
+
 </html>
